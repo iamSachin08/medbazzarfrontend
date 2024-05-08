@@ -414,7 +414,8 @@ export default  function ProductDetail(){
             </Grid>
 
             <Grid item xs={12}>
-                <ReactQuill   onFocus={()=>handleError('description',null)}></ReactQuill> 
+                
+                <ReactQuill  onFocus={()=>handleError('description',null)} modules={modules} theme="snow" value={description} onChange={(e)=>setDescription(e)} />
                 {error.description?<span style={{fontSize:13,fontFamily:'kanit',margin:'2%',color:'#d32f2f'}}>{error.description}</span>:<></>}
             </Grid>
 
@@ -431,10 +432,12 @@ export default  function ProductDetail(){
                     error={error.weightType}
                     onChange={(event)=>setWeightType(event.target.value)}
                     onFocus={()=>handleError('weightType',null)}>
-                        <MenuItem value="MG" >MG</MenuItem>
-                        <MenuItem value="Gram" >Gram</MenuItem>
-                        <MenuItem value="L" >L</MenuItem>
-                        <MenuItem value="ML">ML</MenuItem>
+                        <MenuItem value="mg" >mg</MenuItem>
+                        <MenuItem value="gm" >gm</MenuItem>
+                        <MenuItem value="kg" >kg</MenuItem>
+                        <MenuItem value="mm" >mm</MenuItem>
+                        <MenuItem value="litre">litre</MenuItem>
+                        <MenuItem value="ml">ml</MenuItem>
                     </Select>
                     {error.weightType?<span style={{fontSize:13,fontFamily:'kanit',margin:'2%',color:'#d32f2f'}}>{error.weightType}</span>:<></>}
                 </FormControl>
@@ -454,6 +457,14 @@ export default  function ProductDetail(){
                         <MenuItem value="Tablet" >Tablet</MenuItem>
                         <MenuItem value="Syrup" >Syrup</MenuItem>
                         <MenuItem value="Tube">Tube</MenuItem>
+                        <MenuItem value="Powder">Powder</MenuItem>
+                        <MenuItem value="Spray">Spray</MenuItem>
+                        <MenuItem value="Gel">Gel</MenuItem>
+                        <MenuItem value="Cream">Cream</MenuItem>
+                        <MenuItem value="Bar">Bar</MenuItem>
+                        <MenuItem value="Lotion">Lotion</MenuItem>
+                        <MenuItem value="Juice">Juice</MenuItem>
+                        <MenuItem value="Other">Other</MenuItem>
                     </Select>
                     {error.type?<span style={{fontSize:13,fontFamily:'kanit',margin:'2%',color:'#d32f2f'}}>{error.type}</span>:<></>}
                 </FormControl>
@@ -471,7 +482,8 @@ export default  function ProductDetail(){
                     <MenuItem value="Single Bottal" >Single Bottal</MenuItem>
                     <MenuItem value="Box" >Box</MenuItem>
                     <MenuItem value="Strip">Strip</MenuItem> 
-                    <MenuItem value="Bottle">Bottal</MenuItem>               
+                    <MenuItem value="Bottle">Bottal</MenuItem>     
+                    <MenuItem value="Packs">Packs</MenuItem>           
                     </Select>
                     {error.packaging?<span style={{fontSize:13,fontFamily:'kanit',margin:'2%',color:'#d32f2f'}}>{error.packaging}</span>:<></>}
                 </FormControl>
@@ -500,7 +512,7 @@ export default  function ProductDetail(){
                     onChange={(event)=>setOfferType(event.target.value)} 
                     onFocus={()=>handleError('offerType',null)}>
                     <MenuItem value="Bumper Offer" >Bumper Offer</MenuItem>
-                    <MenuItem value="Diwali Dhamaka" >Diwali Dhamaka</MenuItem>
+                    <MenuItem value="Month end Sale" >Month End Sale</MenuItem>
                     <MenuItem value=" De Diwal offer" >De Diwali Offer</MenuItem>
                     <MenuItem value="Sale 50%" >Sale 50%</MenuItem> 
                     </Select>

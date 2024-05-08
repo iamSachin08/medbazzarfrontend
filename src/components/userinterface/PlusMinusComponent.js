@@ -1,10 +1,15 @@
 import { Button,IconButton } from "@mui/material"
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import {useState} from 'react'
+import { useEffect } from "react";
 
 export default function PlusMinusComponent(props)
 {
-    const [value , setValue] = useState(0)
+    const [value , setValue] = useState(props.qty)
+
+    useEffect(function(){
+        setValue(props.qty)
+    },[props.qty,value])
 
     const handleMinus =() =>{
         setValue((prev) => prev-1)
@@ -26,11 +31,13 @@ export default function PlusMinusComponent(props)
    return(
     <div style={{display:'flex'}}>
         { value == 0 ?
-       <IconButton  onClick={handlePlus} color="primary" aria-label="add to shopping cart">
+       <IconButton style={{width:props.width}} onClick={handlePlus} color="primary" aria-label="add to shopping cart">
             <Button
-             variant="text"
+             variant="outlined"
              endIcon={<AddShoppingCartIcon />}
              size='small'
+             fullWidth
+             
              
             >
               ADD
@@ -38,7 +45,7 @@ export default function PlusMinusComponent(props)
 
        </IconButton>
         :
-        <div style={{alignItems:'center',display:'flex', justifyContent:'space-evenly', background:'#00391c',width:90,height:29,  borderRadius:4}}>
+        <div style={{alignItems:'center',display:'flex', justifyContent:'space-evenly', background:'#00391c',width:props.width ,height:30,  borderRadius:4}}>
        
         <span onClick={handleMinus} style={{cursor:'pointer', color:'#fff',fontSize:16,fontWeight:'bold'}}>
             -

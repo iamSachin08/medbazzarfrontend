@@ -68,10 +68,6 @@ export default function Brand(props){
     
    }
 
-
-
-
-
     return(<div className={classes.mainBox}>
         <div className={classes.box}>
             <Grid container spacing={3}>

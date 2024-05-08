@@ -6,8 +6,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import { footerStyles } from "./FooterCss";
 import { useState ,useEffect} from "react";
 import { getData } from "../../services/FetchnodeServices";
-import gpay from "../../assests/gpay.png"
-import ap from "../../assests/ap.png"
+import play from "../../assests/play.webp"
+import apple from "../../assests/apple.png"
 import EmailIcon from '@mui/icons-material/Email';
 import WifiCalling3Icon from '@mui/icons-material/WifiCalling3';
 
@@ -37,10 +37,9 @@ export default function FooterComponent(){
     return(<div className={classes.mainBox} >
         <div className={classes.box1}>
             <Grid container spacing={2} style={{marginLeft:30}}>
-                
-                
-                
+ 
                 <Grid item xs={12} >
+                    
                     <div style={{fontSize:18,fontWeight:'bolder ',marginBottom:15}}>Follow us</div>
                     <span ><FacebookIcon fontSize="large"/></span>
                     <span style={{marginLeft:9}}><InstagramIcon fontSize="large"/></span>
@@ -81,9 +80,9 @@ export default function FooterComponent(){
             <Grid container spacing={2}  >
                 <Grid item xs={12}  >
                     <div style={{fontSize:18,fontWeight:'bolder ',marginTop:20}}>Download the Mobile app</div>
-                    <div style={{marginTop:-10 }}>
-                        <img src={ap} width='100' />
-                        <img src={ap} width='100'style={{marginLeft:20 }}/>
+                    <div style={{marginTop:'20' }}>
+                        <img src={play} width='150' />
+                        <img src={apple} width='150'style={{marginLeft:20 }}/>
                     </div>
                 </Grid>
                 

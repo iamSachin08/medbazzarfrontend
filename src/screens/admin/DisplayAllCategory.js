@@ -166,8 +166,6 @@ export default function DisplayAllCategory(){
         open={open}
         onClose={handleClose}
         maxWidth={"md"}>
-        
-        
       <DialogContent>
 
         <div className={classes.box}>

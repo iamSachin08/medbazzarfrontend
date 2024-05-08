@@ -13,17 +13,17 @@ export default function SliderComponent(props){
         dots: false,
         autoplay:true,
         infinite: true,
-        speed: 500,
+        speed: 5000,
         slidesToShow: 3,
         slidesToScroll: 1
       };
 
-    var banners=[{bannerid:1,brandid:2,bannerType:'xx',picture:"1.webp,2.webp,3.webp,4.webp,5.webp,6.webp"}]
+    var banners = props?.data
 
-    var images = Object.values(banners)[0].picture.split(",")
+    var images = Object.values(banners)[0]?.picture.split(",")
 
     const ShowSlide=()=>{
-        return images.map((item)=>{
+        return images?.map((item)=>{
             return <div><img src={`${serverURL}/images/${item}`} style={{width:'95%',marginLeft:'auto',marginRight:'auto',display:'block',height:'auto',borderRadius:10}}/></div>
         })
     }

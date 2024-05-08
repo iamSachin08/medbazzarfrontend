@@ -513,6 +513,7 @@ export default function DisplayAllProductDetail(){
                     <MenuItem value="Diwali Dhamaka" >Diwali Dhamaka</MenuItem>
                     <MenuItem value=" De Diwal offer" >De Diwali Offer</MenuItem>
                     <MenuItem value="Sale 50%" >Sale 50%</MenuItem> 
+                    <MenuItem value="Month end Sale" >Month end Sale</MenuItem> 
                     </Select>
                 </FormControl>
                 {error.offerType?<span style={{fontSize:13,fontFamily:'kanit',margin:'2%',color:'#d32f2f'}}>{error.offerType}</span>:<></>}
@@ -575,7 +576,7 @@ export default function DisplayAllProductDetail(){
                 paging:true,
                 pageSize:3,       // make initial page size
                 emptyRowsWhenPaging: false,   // To avoid of having empty rows
-                pageSizeOptions:[3,5,7,9,10],    // rows selection options
+                pageSizeOptions:[2,3,5,7,9,10],    // rows selection options
               }}
             data={productDetailData}        
             actions={[

@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 
 export default function Categories() {
  var classes=useStyles()
+
  const [category,setCategory]=useState('')
  const [picture,setPicture]=useState({file:'md.png',bytes:''})
  const [error,setError]=useState({})
@@ -104,11 +105,7 @@ export default function Categories() {
                         Reset
                     </Button>
                 </Grid>
-
             </Grid>
         </div>
-        
     </div>)
-
-
 }

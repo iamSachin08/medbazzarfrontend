@@ -3,81 +3,43 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-export default function ShowCart(){
-    var product = [
-        {
-          productdetailid: 2,
-          categoryid: 7,
-          subcategoryid: 8,
-          brandid: 2,
-          productid: 5,
-          productsubname: "REAL JUICE",
-          weight: 1,
-          weighttype: "LTR",
-          type: "juice",
-          packaging: "box",
-          qty: 10,
-          price: 128,
-          offerprice: 27,
-          offertype: "eos",
-          description: "Real Power Juice, Mixed Fruit, ",
-          picture: "realjuice.jpg",
-          concernid: 1,
-        },
-        
-    {
-      productdetailid: 3,
-      categoryid: 8,
-      subcategoryid: 9,
-      brandid: 3,
-      productid: 6,
-      productsubname: "PONDS",
-      weight: 275,
-      weighttype: "ml",
-      type: "cream",
-      packaging: "box",
-      qty: 8,
-      price: 275,
-      offerprice: 0,
-      offertype: "eos",
-      description: "Ponds Vitamin Body Lotion, ",
-      picture: "ponds.jpg",
-      concernid: 2,
-    },
-    {
-      productdetailid: 4,
-      categoryid: 9,
-      subcategoryid: 10,
-      brandid: 4,
-      productid: 7,
-      productsubname: "LORIAL SHAMPOO",
-      weight: 340,
-      weighttype: "ml",
-      type: "shampoo",
-      packaging: "bottle",
-      qty: 7,
-      price: 319,
-      offerprice: 300,
-      offertype: "eos",
-      description: "Loreal Paris Shampoo, ",
-      picture: "lorial.png",
-      concernid: 3,
-    }
-    ]
-    
-   
+import {useSelector,useDispatch} from "react-redux"
+import PlusMinusComponent from "./PlusMinusComponent";
+import { useState } from "react";
+export default function ShowCart(props){
 
-    const ShowProductImage = (item) => {
-        const images = item.picture.split(",");
-       return images.map((item)=>{
-           return <div><img src={`${serverURL}/images/${item}`} 
-                      style={{width:'50%',display:'block'}}/>
-                  </div>
-       })
-    }
+    var productFromRedux = props.products  
+    var productDetails = Object.values(productFromRedux)
+
+    var dispatch = useDispatch()
+
+    
+    
+    const handleChange =(v,item)=>{
+        if(v>0)
+        {
+          item['qty']=v
+          dispatch({type:'ADD_PRODUCT',payload:[item.productdetailid,item]})
+          
+        }
+        else
+        {
+          dispatch({type:'DELETE_PRODUCT',payload:[item.productdetailid]})
+        }  
+        props.setPageRefresh(!props.pageRefresh)
+      }
+
+    // const ShowProductImage = (item) => {
+    //     const images = item.picture.split(",");
+    //    return images.map((item)=>{
+    //        return <div><img src={`${serverURL}/images/${item}`} 
+    //                   style={{width:100,display:'block'}}/>
+    //               </div>
+    //    })
+    // }
 
     const CartBox = ()=>{
-        return product.map((item) => {
+        return productDetails.map((item) => {
             return(<div 
             style={{border:'solid 1px',
             width:'92%',
@@ -89,16 +51,16 @@ export default function ShowCart(){
 
             <div style={{display:'flex'}}> 
             
-                <div style={{width:200,display:'block'}}>
-                  {ShowProductImage(item)}
+                <div style={{width:200}}>
+                    <div>
+                    <img src={`${serverURL}/images/${item.picture}`} style={{width:100,marginRight:'auto',borderRadius:10,display:'block',height:'auto'}} />
+                    </div>    
                 </div>
 
-                <div style={{width:'85%',marginLeft:-100,marginTop:-5}}>
+                <div style={{width:'85%',marginLeft:-75,marginTop:-5}}>
 
-                    <div style={{fontSize:"1.5em",fontWeight:'700'}}>
-                      {item.description}
-                      {item.weight}
-                      {item.weighttype}
+                    <div style={{fontSize:"1.2em",fontWeight:'700'}}>
+                      {item.productname} 
                     </div>
 
                     <div style={{fontSize:'0.8em',fontWeight:'500',color:'grey',marginTop:3}}>
@@ -107,30 +69,38 @@ export default function ShowCart(){
                         <span>{item.weight} </span>
                         <span>{item.weighttype} </span>
                     </div>
-
+                    <div style={{display:'flex',justifyContent:'space-between',flexDirection:'row'}}>
                     <div style={{marginTop:8}}>
                         {item.offerprice == 0 ? 
-                        <div style={{fontSize:'1.5em',fontWeight:'bolder'}}> 
-                          &#x20B9;{item.price}
+                        <div style={{fontSize:'1.4em',fontWeight:'bolder'}}> 
+                          &#x20B9;{item.price} 
+                          
 
                         </div>
                         :
                         <div >
-                            <span style={{fontSize:'1.5em',fontWeight:'bolder'}}>
+                            <span style={{fontSize:'1.4em',fontWeight:'bolder'}}>
                                 &#x20B9;{item.offerprice}
                             </span>
-                            <span style={{fontSize:'1.1em',fontWeight:'500',color:'grey',margin:5}} >
+                            <span style={{fontSize:'1.0em',fontWeight:550,color:'grey',margin:5}} >
                                 <s >
                                     MRP &#x20B9;{item.price}
                                 </s>
                             </span>
-                     
+                            <span style={{background:'#f1c40f',borderRadius:10}}>
+                                <span style={{fontSize:'0.8em',fontWeight:'bold',color:'green',padding:5}}>
+                                    20% off
+                                </span>
+                            </span>
+                            
                         </div>}
+                    </div>
+                    <PlusMinusComponent  qty={productFromRedux[item?.productdetailid]?.qty===undefined?0:productFromRedux[item?.productdetailid]?.qty} onChange={(v)=>handleChange(v,item)} width={120} />
                     </div>
 
                     <div style={{display:'flex',alignItems:'center'}} >
                     <span>
-                        <AccessTimeIcon style={{fontSize:'small',color:'red',marginBottom:-2}}/>
+                        <AccessTimeIcon style={{fontSize:'1.2em',color:'red',marginBottom:-2}}/>
                     </span>    
                     <span style={{margin:5,fontSize:'0.8em',color:'grey'}} >
                         Delivery Within
@@ -147,14 +117,14 @@ export default function ShowCart(){
 
                 <div style={{display:'flex',alignItems:'center'}}>
                     <span>
-                        <DeleteOutlineIcon style={{color:'red',fontSize:'1.8em'}}/>
+                        <DeleteOutlineIcon style={{color:'red',fontSize:'1.4em'}}/>
                     </span>     
                     <span style={{color:'red',margin:6,fontSize:'1.0em'}}>
                         Remove
                     </span>
 
                     <span style={{marginLeft:25}}>
-                         <BookmarkAddOutlinedIcon style={{fontSize:'1.8em'}}/>
+                         <BookmarkAddOutlinedIcon style={{fontSize:'1.4em'}}/>
                     </span> 
                     <span style={{margin:6,fontSize:'1.0em'}}>
                         Add to Favourites
@@ -171,7 +141,7 @@ export default function ShowCart(){
  return( 
     <div style={{width:"100%",fontFamily:'kanit',background:''}} >
         <div style={{fontSize:'1.6em',fontWeight:'bolder'}}>
-            {product.length} Items in Your Cart
+            {productDetails.length} Items in Your Cart
         </div>
     
 

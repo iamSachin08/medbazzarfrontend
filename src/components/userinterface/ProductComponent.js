@@ -1,7 +1,6 @@
 import Button from '@mui/material/Button';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -11,175 +10,39 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { createRef } from "react";
-
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Grid } from '@mui/material';
 import PlusMinusComponent from './PlusMinusComponent';
+import {useDispatch} from "react-redux"
+import logo from "../../assests/logo.png"
+import { useNavigate } from 'react-router-dom';
+import {useSelector} from "react-redux"
 export default function ProductComponent(props) {
 
   const theme = useTheme();
   var sld = createRef();
+  var dispatch = useDispatch()
+  var navigate = useNavigate()
+
+  var productFromRedux = useSelector(state=>state.data)
+  var productRedux = Object.values(productFromRedux)
  
 
-  var product = [
+  var product = props?.data
     
-    {
-      productdetailid: 3,
-      categoryid: 8,
-      subcategoryid: 9,
-      brandid: 3,
-      productid: 6,
-      productsubname: "zzz",
-      weight: 275,
-      weighttype: "ml",
-      type: "cream",
-      packaging: "box",
-      qty: 8,
-      price: 275,
-      offerprice: 0,
-      offertype: "eos",
-      description: "Ponds Body Care Lotion, ",
-      picture: "ponds.jpg",
-      concernid: 2,
-    },
-    {
-      productdetailid: 4,
-      categoryid: 9,
-      subcategoryid: 10,
-      brandid: 4,
-      productid: 7,
-      productsubname: "aa",
-      weight: 340,
-      weighttype: "ml",
-      type: "shampoo",
-      packaging: "bottle",
-      qty: 7,
-      price: 319,
-      offerprice: 300,
-      offertype: "eos",
-      description: "Loreal Paris Shampoo, ",
-      picture: "coolex.jpg",
-      concernid: 3,
-    },
-    {
-      productdetailid: 5,
-      categoryid: 10,
-      subcategoryid: 11,
-      brandid: 5,
-      productid: 8,
-      productsubname: "b",
-      weight: 80,
-      weighttype: "gm",
-      type: "spray",
-      packaging: "bottle",
-      qty: 12,
-      price: 180,
-      offerprice: 0,
-      offertype: "eos",
-      description: "Coolex Pain Relief Spray, ",
-      picture: "coolex.jpg",
-      concernid: 4,
-    },
-    {
-      productdetailid: 6,
-      categoryid: 11,
-      subcategoryid: 12,
-      brandid: 6,
-      productid: 9,
-      productsubname: "c",
-      weight: 1,
-      weighttype: "kg",
-      type: "drink",
-      packaging: "box",
-      qty: 9,
-      price: 1533,
-      offerprice: 1500,
-      offertype: "eos",
-      description: "Ensure Balance Nutrition , ",
-      picture: "pediasure.jpg",
-      concernid: 5,
-    },
-    {
-      productdetailid: 7,
-      categoryid: 12,
-      subcategoryid: 13,
-      brandid: 7,
-      productid: 10,
-      productsubname: "d",
-      weight: 100,
-      weighttype: "ml",
-      type: "shampoo",
-      packaging: "bottle",
-      qty: 10,
-      price: 275,
-      offerprice: 0,
-      offertype: "eos",
-      description: "Ketoconazole Shampoo, ",
-      picture: "ponds.jpg",
-      concernid: 6,
-    },
-    {
-      productdetailid: 8,
-      categoryid: 13,
-      subcategoryid: 14,
-      brandid: 8,
-      productid: 11,
-      productsubname: "e",
-      weight: 400,
-      weighttype: "gm",
-      type: "drink",
-      packaging: "box",
-      qty: 60,
-      price: 600,
-      offerprice: 612,
-      offertype: "eos",
-      description: "Protinex  Health  Nutrition Drink, ",
-      picture: "protinex.webp",
-      concernid: 7,
-    },
-    {
-      productdetailid: 9,
-      categoryid: 14,
-      subcategoryid: 15,
-      brandid: 9,
-      productid: 12,
-      productsubname: "f",
-      weight: 400,
-      weighttype: "gm",
-      type: "drink",
-      packaging: "box",
-      qty: 55,
-      price: 653,
-      offerprice: 0,
-      offertype: "eos",
-      description: "PediaSure Health Drink, ",
-      picture: "pediasure.jpg",
-      concernid: 8,
-    },
-    {
-      productdetailid: 10,
-      categoryid: 15,
-      subcategoryid: 16,
-      brandid: 10,
-      productid: 13,
-      productsubname: "g",
-      weight: 25,
-      weighttype: "mg",
-      type: "cream",
-      packaging: "box",
-      qty: 20,
-      price: 275,
-      offerprice: 0,
-      offertype: "eos",
-      description: "Vicks Vaporup For Cold, ",
-      picture: "vicks.webp",
-      concernid: 9,
-    },
    
-  ];
-
-  const handleChange =(v)=>{
-    alert(v)
+  const handleChange =(v,item)=>{
+    if(v>0)
+    {
+      item['qty']=v
+      dispatch({type:'ADD_PRODUCT',payload:[item.productdetailid,item]})
+      
+    }
+    else
+    {
+      dispatch({type:'DELETE_PRODUCT',payload:[item.productdetailid]})
+    }  
+    props.setPageRefresh(!props.pageRefresh)
   }
 
   const matchesMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -205,25 +68,30 @@ export default function ProductComponent(props) {
     
   };
 
+  const handleProductDetail = (item) =>
+  {
+    navigate('/productdetailpage',{state:{data:item}})
+  }
 
   const showSlide = (item) => {
-    const images = item.picture.split(",");
-    return images.map((image, index) => (
-      <div >
-        <img
-          src={`${serverURL}/images/${image}`}
-          style={{ width: "80%", display:'block' ,marginRight:'auto',marginLeft:'auto' }}
-        />
-      </div>
-    ));
-  };
+    
+   
+    return(<div style={{ display: "flex", justifyContent: "center" }}>
+          <img
+            src={`${serverURL}/images/${item.picture}`}
+            style={{ width: "70%", borderRadius: 0, height: "auto",aspectRatio:3/3 }}
+          />
+        </div>)
+     
+    };
 
   const ProductDetail = () =>{
     return product.map((item) => {
       return(
-      <div>
+      <div   >
         <div 
         style={{
+          cursor:'pointer',
           fontFamily:'kanit',
           width:'80%',
           height:'auto',
@@ -238,28 +106,43 @@ export default function ProductComponent(props) {
             </Grid>
 
             <Grid item xs={12}>
-
+             <div onClick={()=>handleProductDetail(item)}>
               {showSlide(item)}
+            </div>
+            </Grid>
+
+            <Grid
+                item
+                xs={12}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: -7,
+                }}
+              >
+                <img src={logo} style={{ width:matchesMd? "3.0em":"5.0em" }} />
+              </Grid>
+            
+            
+            <Grid item xs={12}>
+            <div style={{
+                  fontSize: matchesMd?"0.7em":"1.0em",
+                  display: "flex",
+                  fontWeight: "bold",
+                  margin: 2,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "2",
+                  WebkitBoxOrient: "vertical",
+                }}>  
+                {item.description.length<=20?<div>{item.description}<div>&nbsp;</div></div>:item.description}
+              </div>  
+                
+                <div style={{fontSize: matchesMd?"0.7em":"1.0em"}}>{item.weight} {item.weighttype}</div>
+              
               
             </Grid>
-            
-            
-            <Grid item xs={12}
-             style={{
-              fontWeight:'bold',
-              fontSize:  "1.0em",
-              display:'flex',
-              margin:2,
-              overflow: "hidden",
-              textOverflow:'ellipsis',
-              display:'-webkit-box',
-              WebkitLineClamp:"2",
-              WebkitBoxOrient:'vertical'
-              }}>
-              {item.description}
-              {item.weight} {item.weighttype}
-            </Grid>
-
 
             <Grid item xs={12}
                 style={{
@@ -267,8 +150,6 @@ export default function ProductComponent(props) {
                   display: "flex",
                   marginTop: -5,
                   fontWeight: "bolder ",
-                  
-
                 }}
               >
               {item.offerprice==0?  
@@ -303,16 +184,16 @@ export default function ProductComponent(props) {
             </Grid>
 
             <Grid item xs={12} style={{ display: "flex",alignItems:'center' }}>
-              <Grid item xs={6} style={{}}>
-                  <PlusMinusComponent  onChange={handleChange} />
+              <Grid item xs={6} >
+                  <PlusMinusComponent  qty={productFromRedux[item?.productdetailid]?.qty===undefined?0:productFromRedux[item?.productdetailid]?.qty} onChange={(v)=>handleChange(v,item)} width={80}  />
                 </Grid>
 
                 <Grid item xs={6}>
                   <Button
                       variant="text"
-                       style={{color:'#fff',marginLeft:15,background:'#00391c',fontSize:matchesMd ? '0.2em':'0.6em'}}
+                       style={{color:'#fff',marginLeft:15,background:'#00391c',fontSize:matchesMd ? '0.2em':'0.65em'}}
+                       onClick={()=>navigate("/cart")}
                       
-
                     >
                      Buy Now
                   </Button>

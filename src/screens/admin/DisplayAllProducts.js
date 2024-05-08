@@ -351,7 +351,7 @@ export default function  DisplayAllProducts(){
                 paging:true,
                 pageSize:3,       // make initial page size
                 emptyRowsWhenPaging: false,   // To avoid of having empty rows
-                pageSizeOptions:[3,5,7,9,10],    // rows selection options
+                pageSizeOptions:[2,3,5,7,9,10],    // rows selection options
               }}
             data={productData}        
             actions={[

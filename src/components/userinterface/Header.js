@@ -1,4 +1,4 @@
-import {AppBar,Box,Toolbar} from '@mui/material';
+import {AppBar,Badge,Box,Toolbar} from '@mui/material';
 import logo from '../../assests/logo.png'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
@@ -24,12 +24,18 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { serverURL } from "../../services/FetchnodeServices";
 
+import {useSelector} from "react-redux"
+import ShowCartProducts from '../userinterface/ShowCartProducts';
+
 export default function Header(){
 
   var classes = HomeStyle()
   var navigate = useNavigate()
+  var products=useSelector((state)=>state.data)
+  var keys=Object?.keys(products)
 
-  const [status,setStatus]=useState(false)
+  const [status , setStatus] = useState(false)
+  const [isOpen , setIsOpen] = useState(false)
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
@@ -40,6 +46,17 @@ export default function Header(){
   const handleClose=()=>{
     setStatus(false)
   }
+
+  const showCartDetails = () =>
+  {
+    setIsOpen(true)
+  }
+
+  const hideCartDetails = () =>
+  {
+    setIsOpen(false)
+  }
+
 
   const drawerList=()=>{
     return(<Paper>
@@ -185,14 +202,17 @@ export default function Header(){
     );
 }
     return(<div>
-         <Box sx={{ flexGrow: 1 }}>
+         <Box sx={{ flexGrow: 1,position:'relative' }}  onMouseLeave={hideCartDetails}>
       <AppBar style={{background:'#fff'}} position="static">
         <Toolbar style={{display:'flex',justifyContent:'space-between'}}>
-            <img src={logo} style={{width:150}}/>
+            <img  onClick={()=>navigate("/home")} src={logo} style={{width:150,cursor:'pointer'}}/>
             {!matches?searchBarComponent():<div></div>}
             <div style={{display:'flex',width:!matches?110:50,justifyContent:'space-between'}} >
               {!matches?<PersonOutlineOutlinedIcon style={{fontSize:30,color:'#000'}}/>:<div></div>}
-              {<ShoppingCartOutlinedIcon style={{fontSize:30,color:'#000'}}/>}
+              {  <Badge badgeContent={keys?.length} color='primary'>
+                   <ShoppingCartOutlinedIcon onMouseOver={showCartDetails}  style={{fontSize:30,color:'#000'}}/>
+                </Badge>  
+              }
               {!matches?<CallOutlinedIcon style={{fontSize:30,color:'#000'}}/>:<div></div>}
             </div>
         </Toolbar>
@@ -210,6 +230,8 @@ export default function Header(){
           >
            {drawerList()}
           </Drawer>
+
+          <ShowCartProducts isOpen={isOpen}/>
         
     </Box>
 

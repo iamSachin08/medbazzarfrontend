@@ -5,7 +5,7 @@ import { getData, postData, serverURL } from "../../services/FetchnodeServices"
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+
 import { Button,Grid,Avatar,TextField } from "@mui/material";
 import TitleComponent from "../../components/TitleComponent"
 import Swal from "sweetalert2";
@@ -132,7 +132,7 @@ export default function DisplayAllBrands(){
 
    }
 
-  
+
   
     const fetchAllBrand =async()=>{
       var result=await getData('brand/display_all_brand')
@@ -189,9 +189,6 @@ export default function DisplayAllBrands(){
                 <Grid item xs={6} style={{display:'flex',justifyContent:'center'}} >
                    <Avatar alt="Remy Sharp" src={picture.file} variant="rounded" style={{width:100,height:100}} />
                 </Grid>
-
-                
-
             </Grid>
 
         </div>
@@ -242,14 +239,11 @@ export default function DisplayAllBrands(){
           />
         )
       }
-
-
+      
 return(<div className={classes.mainBox}>
     <div className={classes.boxDisplay}>
         {ShowBrand()}
     </div>
     {showBrandForm()}
 </div>)
-
-
 }

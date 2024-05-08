@@ -61,7 +61,7 @@ export default function Subcategory(props){
             if(result.status)
         {
             Swal.fire({
-                icon: "Success",
+                icon: "success",
                 title: result.message,
                 timer:1500
               });
@@ -70,7 +70,7 @@ export default function Subcategory(props){
         else
         {
             Swal.fire({
-                icon: "Error",
+                icon: "error",
                 title: result.message,
                 timer:1500
               });
